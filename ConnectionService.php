@@ -1,5 +1,9 @@
 <?php
 
+namespace Service;
+
+use PDO;
+
 class ConnectionService
 {
     public function createNewConnection(): PDO

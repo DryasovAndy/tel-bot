@@ -9,6 +9,7 @@
 
 require 'vendor/autoload.php';
 
+use Service\ConnectionService;
 use Telegram\Bot\Api;
 use Telegram\Bot\FileUpload\InputFile;
 use Telegram\Bot\Keyboard\Keyboard;
