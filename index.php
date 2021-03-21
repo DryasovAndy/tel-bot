@@ -53,10 +53,10 @@ if ($text) {
         $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $reply]);
         $connectionService->updateLastCommand($pdo, "/add");
     } elseif ($lastCommand === "/add") {
-        $reply = "Commander, new reason was approved";
-        $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $reply . $text]);
         $connectionService->addNewReason($pdo, $text);
         $connectionService->updateLastCommand($pdo);
+        $reply = "Commander, new reason was approved";
+        $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $reply . $text]);
     } else {
         $reply = "Тупо тыкай кнопку. Здесь нет дополнительного функционала";
         $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $reply]);
