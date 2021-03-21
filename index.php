@@ -12,10 +12,9 @@ require 'vendor/autoload.php';
 use Telegram\Bot\Api;
 use Telegram\Bot\FileUpload\InputFile;
 use Telegram\Bot\Keyboard\Keyboard;
+use ConnectionService;
 
 $telegram = new Api('1735568884:AAHwl4IOTJSkdtaQx_nCrWWOE4WMSVn-1fE');
-$connectionService = new ConnectionService();
-$pdo = $connectionService->createNewConnection();
 
 $result = $telegram->getWebhookUpdates();
 
@@ -27,12 +26,12 @@ $brokeBackMountain = 'https://avatars.mds.yandex.net/get-ott/1531675/2a000001766
 $dildo = 'https://www.sexsoshop.ru/img/tovars/LoveToy/2660010001961-1.jpg';
 
 $connectionService = new ConnectionService();
-//$pdo = $connectionService->createNewConnection();
-//$lastCommand = $connectionService->getLastCommand($pdo);
+$pdo = $connectionService->createNewConnection();
+$lastCommand = $connectionService->getLastCommand($pdo);
 
 if ($text) {
     if ($text === "/start") {
-//        $connectionService->updateLastCommand($pdo, $text);
+        $connectionService->updateLastCommand($pdo, $text);
         $reply = "Привет. Меня зовут Олег и я опять решил проебаться";
         $reply_markup = Keyboard::make(
             ['keyboard' => $keyboard, 'resize_keyboard' => true, 'one_time_keyboard' => false]
