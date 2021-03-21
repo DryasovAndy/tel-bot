@@ -8,6 +8,7 @@
 <?php
 
 require 'vendor/autoload.php';
+require 'ConnectionService.php';
 
 use Service\ConnectionService;
 use Telegram\Bot\Api;
