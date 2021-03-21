@@ -6,6 +6,7 @@
 <?php
 
 require 'vendor/autoload.php';
+require_once 'connection.php';
 
 use Telegram\Bot\Api;
 use Telegram\Bot\FileUpload\InputFile;
@@ -23,6 +24,16 @@ $keyboard = [["Срочно нужна причина для отмазки"]]; 
 $brokeBackMountain = 'https://avatars.mds.yandex.net/get-ott/1531675/2a00000176680c1e3250d9adabbd157aa3d0/1344x756';
 $dildo = 'https://www.sexsoshop.ru/img/tovars/LoveToy/2660010001961-1.jpg';
 
+$sql = 'select r.reason
+from d56dm3jpas8cjd.public.reasons r
+ORDER BY RANDOM()
+LIMIT 1
+';
+
+$stmt = $pdo->prepare($sql);
+$stmt->execute();
+$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 $lines = file('./reasons.txt');
 $reasons = [];
 
@@ -39,6 +50,7 @@ if ($text) {
         $telegram->sendMessage(['chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup]);
     } elseif ($text === "/bro") {
         $telegram->sendPhoto(['chat_id' => $chat_id, 'photo' => InputFile::create($brokeBackMountain)]);
+        $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => (string)$result]);
     } elseif ($text === "/hui") {
         $telegram->sendPhoto(['chat_id' => $chat_id, 'photo' => InputFile::create($dildo)]);
     } elseif ($text === "Срочно нужна причина для отмазки") {
