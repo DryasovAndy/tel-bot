@@ -50,7 +50,7 @@ if ($text) {
         $telegram->sendMessage(['chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup]);
     } elseif ($text === "/bro") {
         $telegram->sendPhoto(['chat_id' => $chat_id, 'photo' => InputFile::create($brokeBackMountain)]);
-        $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => (string)$result]);
+        $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => implode(",", $result)]);
     } elseif ($text === "/hui") {
         $telegram->sendPhoto(['chat_id' => $chat_id, 'photo' => InputFile::create($dildo)]);
     } elseif ($text === "Срочно нужна причина для отмазки") {
