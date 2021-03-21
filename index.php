@@ -54,7 +54,7 @@ if ($text) {
         $connectionService->updateLastCommand($pdo, "/add");
     } elseif ($lastCommand === "/add") {
         $reply = "Commander, new reason was approved";
-        $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $reply]);
+        $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $reply . $text]);
         $connectionService->addNewReason($pdo, $text);
         $connectionService->updateLastCommand($pdo);
     } else {
