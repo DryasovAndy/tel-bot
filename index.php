@@ -24,6 +24,7 @@ $name = $result["message"]["from"]["username"]; //Юзернейм пользо�
 $keyboard = [["Срочно нужна причина для отмазки"]]; //Клавиатура
 $brokeBackMountain = 'https://avatars.mds.yandex.net/get-ott/1531675/2a00000176680c1e3250d9adabbd157aa3d0/1344x756';
 $dildo = 'https://www.sexsoshop.ru/img/tovars/LoveToy/2660010001961-1.jpg';
+$a = 0;
 
 $connectionService = new ConnectionService();
 $pdo = $connectionService->createNewConnection();
