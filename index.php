@@ -17,6 +17,8 @@ use ConnectionService;
 $telegram = new Api('1735568884:AAHwl4IOTJSkdtaQx_nCrWWOE4WMSVn-1fE');
 
 $result = $telegram->getWebhookUpdates();
+var_dump($result);
+print_r($result);
 
 $text = $result["message"]["text"]; //Текст сообщения
 $chat_id = $result["message"]["chat"]["id"]; //Уникальный идентификатор пользователя
