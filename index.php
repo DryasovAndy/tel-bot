@@ -15,7 +15,7 @@ use Telegram\Bot\Api;
 use Telegram\Bot\FileUpload\InputFile;
 use Telegram\Bot\Keyboard\Keyboard;
 
-$telegram = new Api('1735568884:AAHwl4IOTJSkdtaQx_nCrWWOE4WMSVn-1fE');
+$telegram = new Api(getenv("TELEGRAM_API"));
 
 $result = $telegram->getWebhookUpdate();
 
