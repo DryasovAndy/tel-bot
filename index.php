@@ -34,6 +34,8 @@ $stmt->execute();
 $result = $stmt->fetchColumn();
 
 if ($text) {
+
+
     if ($text === "/start") {
         $reply = "Привет. Меня зовут Олег и я опять решил проебаться";
         $reply_markup = Keyboard::make(
@@ -46,9 +48,10 @@ if ($text) {
         $telegram->sendPhoto(['chat_id' => $chat_id, 'photo' => InputFile::create($dildo)]);
     } elseif ($text === "Срочно нужна причина для отмазки") {
         $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $result]);
-//    } elseif ($text === "/add") {
-//        $reply = "Да, добавь еще одну";
-//        $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'reply_markup' => Keyboard::forceReply(['selective' => true])]);
+    } elseif ($text === "/add") {
+        $lastResponse = $telegram->getLastResponse()->getBody();
+        $reply = "Да, добавь еще одну";
+        $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'reply_markup' => $reply . $lastResponse]);
     } else {
         $reply = "Тупо тыкай кнопку. Здесь нет дополнительного функционала";
         $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $reply]);
