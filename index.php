@@ -27,12 +27,12 @@ $brokeBackMountain = 'https://avatars.mds.yandex.net/get-ott/1531675/2a000001766
 $dildo = 'https://www.sexsoshop.ru/img/tovars/LoveToy/2660010001961-1.jpg';
 
 $connectionService = new ConnectionService();
-$pdo = $connectionService->createNewConnection();
-$lastCommand = $connectionService->getLastCommand($pdo);
+//$pdo = $connectionService->createNewConnection();
+//$lastCommand = $connectionService->getLastCommand($pdo);
 
 if ($text) {
     if ($text === "/start") {
-        $connectionService->updateLastCommand($pdo, $text);
+//        $connectionService->updateLastCommand($pdo, $text);
         $reply = "Привет. Меня зовут Олег и я опять решил проебаться";
         $reply_markup = Keyboard::make(
             ['keyboard' => $keyboard, 'resize_keyboard' => true, 'one_time_keyboard' => false]
