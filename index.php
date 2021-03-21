@@ -12,13 +12,10 @@ require 'vendor/autoload.php';
 use Telegram\Bot\Api;
 use Telegram\Bot\FileUpload\InputFile;
 use Telegram\Bot\Keyboard\Keyboard;
-use ConnectionService;
 
 $telegram = new Api('1735568884:AAHwl4IOTJSkdtaQx_nCrWWOE4WMSVn-1fE');
 
 $result = $telegram->getWebhookUpdates();
-var_dump($result);
-print_r($result);
 
 $text = $result["message"]["text"]; //Текст сообщения
 $chat_id = $result["message"]["chat"]["id"]; //Уникальный идентификатор пользователя
@@ -26,15 +23,14 @@ $name = $result["message"]["from"]["username"]; //Юзернейм пользо�
 $keyboard = [["Срочно нужна причина для отмазки"]]; //Клавиатура
 $brokeBackMountain = 'https://avatars.mds.yandex.net/get-ott/1531675/2a00000176680c1e3250d9adabbd157aa3d0/1344x756';
 $dildo = 'https://www.sexsoshop.ru/img/tovars/LoveToy/2660010001961-1.jpg';
-$a = 0;
 
-$connectionService = new ConnectionService();
-$pdo = $connectionService->createNewConnection();
-$lastCommand = $connectionService->getLastCommand($pdo);
+//$connectionService = new ConnectionService();
+//$pdo = $connectionService->createNewConnection();
+//$lastCommand = $connectionService->getLastCommand($pdo);
 
 if ($text) {
     if ($text === "/start") {
-        $connectionService->updateLastCommand($pdo, $text);
+//        $connectionService->updateLastCommand($pdo, $text);
         $reply = "Привет. Меня зовут Олег и я опять решил проебаться";
         $reply_markup = Keyboard::make(
             ['keyboard' => $keyboard, 'resize_keyboard' => true, 'one_time_keyboard' => false]
