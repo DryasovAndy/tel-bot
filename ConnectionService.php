@@ -26,7 +26,7 @@ class ConnectionService
 
     public function getRandomReasonForExcuse(PDO $connection): string
     {
-        $sql = 'select r.reason
+        $sql = 'SELECT r.reason
                     FROM d56dm3jpas8cjd.public.reasons r
                 ORDER BY RANDOM()
                 LIMIT 1
@@ -53,7 +53,7 @@ class ConnectionService
 
     public function getLastCommand(PDO $connection): ?string
     {
-        $sql = 'select lc.command
+        $sql = 'SELECT lc.command
                     FROM d56dm3jpas8cjd.public.last_command lc
                 LIMIT 1
                 ';
@@ -63,5 +63,16 @@ class ConnectionService
         $result = $stmt->fetchColumn();
 
         return $result;
+    }
+
+    public function addNewReason(PDO $connection, string $reason): void
+    {
+        $sql = 'INSERT INTO "d56dm3jpas8cjd"."public"."reasons"(reason)
+                VALUES (":reason")
+                ';
+
+        $stmt = $connection->prepare($sql);
+        $stmt->bindParam(':reason', $reason);
+        $stmt->execute();
     }
 }
