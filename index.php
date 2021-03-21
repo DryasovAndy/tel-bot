@@ -13,7 +13,6 @@ use Telegram\Bot\FileUpload\InputFile;
 use Telegram\Bot\Keyboard\Keyboard;
 
 $telegram = new Api('1735568884:AAHwl4IOTJSkdtaQx_nCrWWOE4WMSVn-1fE');
-$url = 'https://excuse-telegram-bot.herokuapp.com'; // URL RSS feed
 
 $result = $telegram->getWebhookUpdates();
 
@@ -34,13 +33,6 @@ $stmt = $pdo->prepare($sql);
 $stmt->execute();
 $result = $stmt->fetchColumn();
 
-$lines = file('./reasons.txt');
-$reasons = [];
-
-foreach ($lines as $line_num => $line) {
-    $reasons[] = $line;
-}
-
 if ($text) {
     if ($text === "/start") {
         $reply = "Привет. Меня зовут Олег и я опять решил проебаться";
@@ -50,12 +42,17 @@ if ($text) {
         $telegram->sendMessage(['chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup]);
     } elseif ($text === "/bro") {
         $telegram->sendPhoto(['chat_id' => $chat_id, 'photo' => InputFile::create($brokeBackMountain)]);
-        $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $result]);
     } elseif ($text === "/hui") {
         $telegram->sendPhoto(['chat_id' => $chat_id, 'photo' => InputFile::create($dildo)]);
     } elseif ($text === "Срочно нужна причина для отмазки") {
-        $key = array_rand($reasons);
-        $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $reasons[$key]]);
+        $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $result]);
+    } elseif ($text === "/add") {
+        $reply = "Да, добавь еще одну";
+        $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'reply_markup' => Keyboard::forceReply()]);
+//    } elseif ($text === "/add") {
+//        $reply = "Да, добавь еще одну";
+//        $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $reply]);
+//    }
     } else {
         $reply = "Тупо тыкай кнопку. Здесь нет дополнительного функционала";
         $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $reply]);
