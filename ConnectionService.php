@@ -51,7 +51,7 @@ class ConnectionService
         $stmt->execute();
     }
 
-    public function getLastCommand(PDO $connection): string
+    public function getLastCommand(PDO $connection): ?string
     {
         $sql = 'select lc.command
                     FROM d56dm3jpas8cjd.public.last_command lc
