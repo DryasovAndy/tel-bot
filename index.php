@@ -30,7 +30,7 @@ $connectionService = new ConnectionService();
 $pdo = $connectionService->createNewConnection();
 $lastCommand = $connectionService->getLastCommand($pdo);
 
-if ($text) {
+if ($text && $chat_id) {
     if ($text === "/start") {
         $connectionService->updateLastCommand($pdo, $text);
         $reply = "Привет. Меня зовут Олег и я опять решил проебаться";
