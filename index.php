@@ -48,7 +48,7 @@ if ($text) {
         $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $result]);
     } elseif ($text === "/add") {
         $reply = "Да, добавь еще одну";
-        $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'reply_markup' => Keyboard::forceReply()]);
+        $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'reply_markup' => Keyboard::forceReply(['selective' => true])]);
 //    } elseif ($text === "/add") {
 //        $reply = "Да, добавь еще одну";
 //        $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $reply]);
