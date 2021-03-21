@@ -1,18 +1,21 @@
 <script>
-    setTimeout(function () { window.location.reload(); }, 10*60*1000);
+    setTimeout(function () {
+        window.location.reload();
+    }, 10 * 60 * 1000);
     console.log(new Date());
 </script>
 
 <?php
 
 require 'vendor/autoload.php';
-require_once 'connection.php';
 
 use Telegram\Bot\Api;
 use Telegram\Bot\FileUpload\InputFile;
 use Telegram\Bot\Keyboard\Keyboard;
 
 $telegram = new Api('1735568884:AAHwl4IOTJSkdtaQx_nCrWWOE4WMSVn-1fE');
+$connectionService = new ConnectionService();
+$pdo = $connectionService->createNewConnection();
 
 $result = $telegram->getWebhookUpdates();
 
@@ -23,35 +26,36 @@ $keyboard = [["Срочно нужна причина для отмазки"]]; 
 $brokeBackMountain = 'https://avatars.mds.yandex.net/get-ott/1531675/2a00000176680c1e3250d9adabbd157aa3d0/1344x756';
 $dildo = 'https://www.sexsoshop.ru/img/tovars/LoveToy/2660010001961-1.jpg';
 
-$sql = 'select r.reason
-from d56dm3jpas8cjd.public.reasons r
-ORDER BY RANDOM()
-LIMIT 1
-';
-
-$stmt = $pdo->prepare($sql);
-$stmt->execute();
-$result = $stmt->fetchColumn();
+$connectionService = new ConnectionService();
+$pdo = $connectionService->createNewConnection();
+$lastCommand = $connectionService->getLastCommand($pdo);
 
 if ($text) {
-
-
     if ($text === "/start") {
+        $connectionService->updateLastCommand($pdo, $text);
         $reply = "Привет. Меня зовут Олег и я опять решил проебаться";
         $reply_markup = Keyboard::make(
             ['keyboard' => $keyboard, 'resize_keyboard' => true, 'one_time_keyboard' => false]
         );
         $telegram->sendMessage(['chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup]);
     } elseif ($text === "/bro") {
+        $connectionService->updateLastCommand($pdo, $text);
         $telegram->sendPhoto(['chat_id' => $chat_id, 'photo' => InputFile::create($brokeBackMountain)]);
     } elseif ($text === "/hui") {
+        $connectionService->updateLastCommand($pdo, $text);
         $telegram->sendPhoto(['chat_id' => $chat_id, 'photo' => InputFile::create($dildo)]);
     } elseif ($text === "Срочно нужна причина для отмазки") {
-        $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $result]);
+        $connectionService->updateLastCommand($pdo);
+        $reason = $connectionService->getRandomReasonForExcuse($pdo);
+        $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $reason]);
     } elseif ($text === "/add") {
-        $lastResponse = $telegram->getLastResponse()->getBody();
         $reply = "Да, добавь еще одну";
-        $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'reply_markup' => $reply . $lastResponse]);
+        $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $reply]);
+        $connectionService->updateLastCommand($pdo, "/add");
+    } elseif ($lastCommand === "/add") {
+        $reply = "Commander, new reason was approved";
+        $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $reply]);
+        $connectionService->updateLastCommand($pdo);
     } else {
         $reply = "Тупо тыкай кнопку. Здесь нет дополнительного функционала";
         $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $reply]);
