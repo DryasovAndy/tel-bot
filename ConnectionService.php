@@ -93,4 +93,16 @@ class ConnectionService
         $stmt->bindParam(':id', $id);
         $stmt->execute();
     }
+
+    public function getReasonById(PDO $connection, string $id): ?string
+    {
+        $sql = 'SELECT from "public"."reasons"
+                WHERE "id" = :id;
+                ';
+
+        $stmt = $connection->prepare($sql);
+        $stmt->bindParam(':id', $id);
+
+        return $stmt->fetchColumn();
+    }
 }

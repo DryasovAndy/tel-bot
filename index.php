@@ -62,9 +62,10 @@ if ($text && $chat_id) {
         $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $reply]);
         $connectionService->updateLastCommand($pdo, "/delete");
     } elseif ($lastCommand === "/delete") {
+        $deletedReasonText = $connectionService->getReasonById($pdo, $text);
         $connectionService->deleteReason($pdo, $text);
         $connectionService->updateLastCommand($pdo);
-        $reply = "Жду, когда ты ее вернешь ее в список";
+        $reply = "Причина: $deletedReasonText была удалена. \nЖду, когда ты ее вернешь ее в список";
         $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $reply]);
     }
     elseif ($text === "/show") {
