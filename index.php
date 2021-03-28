@@ -61,8 +61,7 @@ if ($text && $chat_id) {
         $reply = "Вспомни все свои грехи";
         $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $reply]);
         $allReasons = $connectionService->getAllReasonsForExcuse($pdo);
-
-        $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => json_encode($allReasons)]);
+        $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => 'test']);
         $connectionService->updateLastCommand($pdo);
     } else {
         $reply = "Тупо тыкай кнопку. Здесь нет дополнительного функционала";
