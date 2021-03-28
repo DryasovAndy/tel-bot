@@ -129,6 +129,7 @@ class ConnectionService
 
         $stmt = $connection->prepare($sql);
         $stmt->bindParam(':id', $id);
+        $stmt->execute();
 
         return $stmt->fetchColumn();
     }
