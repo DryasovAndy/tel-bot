@@ -71,21 +71,21 @@ if ($text && $chat_id) {
         $connectionService->updateLastCommand($pdo, "/delete");
     } elseif ($lastCommand === "/delete") {
 
-//        if ((int)$text) {
-//            $deletedReasonText = $connectionService->getReasonById($pdo, $text);
-//
-//            $connectionService->deleteReason($pdo, $text);
-//            $connectionService->updateLastCommand($pdo);
-//
-//            $reply = "Причина: $deletedReasonText была удалена. \nЖду, когда ты вернешь ее в список";
-//
-//            $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $reply]);
-//        } else {
+        if ((int)$text) {
+            $deletedReasonText = $connectionService->getReasonById($pdo, (int)$text);
+
+            $connectionService->deleteReason($pdo, (int)$text);
+            $connectionService->updateLastCommand($pdo);
+
+            $reply = "Причина: $deletedReasonText была удалена. \nЖду, когда ты вернешь ее в список";
+
+            $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $reply]);
+        } else {
             $connectionService->updateLastCommand($pdo);
             $reply = "Циферку вводи. Ты справишься, я уверен.";
 
-            $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => (int)$text]);
-//        }
+            $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => (int)$text . $reply]);
+        }
 
     } elseif ($text === "/show") {
         $reply = "Вспомни все свои грехи";

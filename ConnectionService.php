@@ -109,7 +109,7 @@ class ConnectionService
         return $stmt->fetchColumn();
     }
 
-    public function deleteReason(PDO $connection, string $id): void
+    public function deleteReason(PDO $connection, int $id): void
     {
         $sql = 'DELETE FROM "public"."reasons"
                 WHERE "id" = :id;
@@ -120,7 +120,7 @@ class ConnectionService
         $stmt->execute();
     }
 
-    public function getReasonById(PDO $connection, string $id): ?string
+    public function getReasonById(PDO $connection, int $id): ?string
     {
         $sql = 'SELECT r.reason
                     FROM public.reasons r
