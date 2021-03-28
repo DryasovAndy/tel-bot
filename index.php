@@ -60,14 +60,19 @@ if ($text && $chat_id) {
     } elseif ($text === "/show") {
         $reply = "Вспомни все свои грехи";
         $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $reply]);
+
+        $file = 'reasons.txt';
+        $current = file_get_contents($file);
+
         $allReasons = $connectionService->getAllReasonsForExcuse($pdo);
 
+        foreach ($allReasons as $key => $reason) {
+            $string = "[$key] => $reason\n";
+            file_put_contents($file, $string, FILE_APPEND | LOCK_EX);
+        }
 
-        $output = implode(", ", array_map(
-            static function ($key, $value) { return "[$key] $value /n"; },
-            array_keys($allReasons),array_values($allReasons)));
+        $telegram->sendDocument(['chat_id' => $chat_id, 'document' => 'reasons.txt']);
 
-        $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $output]);
         $connectionService->updateLastCommand($pdo);
     } else {
         $reply = "Тупо тыкай кнопку. Здесь нет дополнительного функционала";
