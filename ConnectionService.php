@@ -6,6 +6,8 @@ use PDO;
 
 class ConnectionService
 {
+    private $database = '';
+
     public function createNewConnection(): PDO
     {
         $db = parse_url(getenv("DATABASE_URL"));
@@ -21,13 +23,15 @@ class ConnectionService
             )
         );
 
+        $this->database = $db["path"];
+
         return $pdo;
     }
 
     public function getRandomReasonForExcuse(PDO $connection): string
     {
         $sql = 'SELECT r.reason
-                    FROM d56dm3jpas8cjd.public.reasons r
+                    FROM public.reasons r
                 ORDER BY RANDOM()
                 LIMIT 1;
                 ';
@@ -41,7 +45,7 @@ class ConnectionService
 
     public function updateLastCommand(PDO $connection, ?string $command = null): void
     {
-        $sql = 'UPDATE "d56dm3jpas8cjd"."public"."last_command"
+        $sql = 'UPDATE "public"."last_command"
                 SET "command" = :command
                 WHERE "id" = 1;
                 ';
@@ -54,7 +58,7 @@ class ConnectionService
     public function getLastCommand(PDO $connection): ?string
     {
         $sql = 'SELECT lc.command
-                    FROM d56dm3jpas8cjd.public.last_command lc
+                    FROM public.last_command lc
                 LIMIT 1;
                 ';
 
@@ -67,7 +71,7 @@ class ConnectionService
 
     public function addNewReason(PDO $connection, string $reason): void
     {
-        $sql = 'INSERT INTO "d56dm3jpas8cjd"."public"."reasons"(reason)
+        $sql = 'INSERT INTO "public"."reasons"(reason)
                 VALUES (:reason);
                 ';
 
