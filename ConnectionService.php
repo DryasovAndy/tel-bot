@@ -41,7 +41,6 @@ class ConnectionService
     {
         $sql = 'SELECT r.id, r.reason
                     FROM public.reasons r
-                WHERE r.id <= 5
                 ';
 
         $stmt = $connection->query($sql);
@@ -84,5 +83,14 @@ class ConnectionService
         $stmt->execute();
     }
 
+    public function deleteReason(PDO $connection, string $id): void
+    {
+        $sql = 'DELETE from "public"."reasons"
+                WHERE "id" = :id;
+                ';
 
+        $stmt = $connection->prepare($sql);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+    }
 }

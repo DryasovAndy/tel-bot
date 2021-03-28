@@ -57,7 +57,17 @@ if ($text && $chat_id) {
         $connectionService->updateLastCommand($pdo);
         $reply = "Commander, new reason was approved";
         $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $reply]);
-    } elseif ($text === "/show") {
+    } elseif ($text === "/delete") {
+        $reply = "Ой, да кому ты врешь";
+        $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $reply]);
+        $connectionService->updateLastCommand($pdo, "/add");
+    } elseif ($lastCommand === "/delete") {
+        $connectionService->deleteReason($pdo, $text);
+        $connectionService->updateLastCommand($pdo);
+        $reply = "Жду, когда ты ее вернешь ее в список";
+        $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $reply]);
+    }
+    elseif ($text === "/show") {
         $reply = "Вспомни все свои грехи";
         $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $reply]);
 
