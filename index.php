@@ -62,13 +62,7 @@ if ($text && $chat_id) {
         $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $reply]);
         $allReasons = $connectionService->getAllReasonsForExcuse($pdo);
 
-        $output = implode(', ', array_map(
-            static function ($v, $k) { return sprintf("%s='%s'", $k, $v); },
-            $allReasons,
-            array_keys($allReasons)
-        ));
-
-        $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $output]);
+        $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => json_encode($allReasons)]);
         $connectionService->updateLastCommand($pdo);
     } else {
         $reply = "Тупо тыкай кнопку. Здесь нет дополнительного функционала";
