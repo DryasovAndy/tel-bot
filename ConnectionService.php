@@ -6,8 +6,6 @@ use PDO;
 
 class ConnectionService
 {
-    private $database = '';
-
     public function createNewConnection(): PDO
     {
         $db = parse_url(getenv("DATABASE_URL"));
@@ -23,8 +21,6 @@ class ConnectionService
             )
         );
 
-        $this->database = $db["path"];
-
         return $pdo;
     }
 
@@ -36,11 +32,20 @@ class ConnectionService
                 LIMIT 1;
                 ';
 
-        $stmt = $connection->prepare($sql);
-        $stmt->execute();
-        $result = $stmt->fetchColumn();
+        $stmt = $connection->query($sql);
 
-        return $result;
+        return $stmt->fetchColumn();
+    }
+
+    public function getAllReasonsForExcuse(PDO $connection): array
+    {
+        $sql = 'SELECT r.id, r.reason
+                    FROM public.reasons r
+                ';
+
+        $stmt = $connection->query($sql);
+
+        return $stmt->fetchAll();
     }
 
     public function updateLastCommand(PDO $connection, ?string $command = null): void
@@ -62,11 +67,9 @@ class ConnectionService
                 LIMIT 1;
                 ';
 
-        $stmt = $connection->prepare($sql);
-        $stmt->execute();
-        $result = $stmt->fetchColumn();
+        $stmt = $connection->query($sql);
 
-        return $result;
+        return $stmt->fetchColumn();
     }
 
     public function addNewReason(PDO $connection, string $reason): void
@@ -79,4 +82,6 @@ class ConnectionService
         $stmt->bindParam(':reason', $reason);
         $stmt->execute();
     }
+
+
 }

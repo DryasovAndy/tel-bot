@@ -57,7 +57,17 @@ if ($text && $chat_id) {
         $connectionService->updateLastCommand($pdo);
         $reply = "Commander, new reason was approved";
         $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $reply]);
-    } else {
+    } elseif ($text === "/show") {
+        $reply = "Огласите весь список, пжлста";
+        $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $reply]);
+        $connectionService->updateLastCommand($pdo, "/show");
+    } elseif ($lastCommand === "/show") {
+        $connectionService->getAllReasonsForExcuse($pdo);
+        $connectionService->updateLastCommand($pdo);
+        $reply = "Посмотрел и хватит, тыкай кнопку";
+        $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $reply]);
+    }
+    else {
         $reply = "Тупо тыкай кнопку. Здесь нет дополнительного функционала";
         $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $reply]);
     }
