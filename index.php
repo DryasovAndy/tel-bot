@@ -70,7 +70,6 @@ if ($text && $chat_id) {
         $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $reply]);
         $connectionService->updateLastCommand($pdo, "/delete");
     } elseif ($lastCommand === "/delete") {
-
         if ((int)$text) {
             $deletedReasonText = $connectionService->getReasonById($pdo, (int)$text);
 
@@ -86,7 +85,6 @@ if ($text && $chat_id) {
 
             $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $reply]);
         }
-
     } elseif ($text === "/show") {
         $reply = "Вспомни все свои грехи";
 
@@ -98,7 +96,7 @@ if ($text && $chat_id) {
 
         foreach ($allReasons as $key => $reason) {
             $string = "[$key] => $reason\n";
-            file_put_contents($file, $string, FILE_APPEND | LOCK_EX);
+            file_put_contents($file, $string, LOCK_EX);
         }
 
         $telegram->sendDocument(['chat_id' => $chat_id, 'document' => InputFile::create('reasons.txt')]);
