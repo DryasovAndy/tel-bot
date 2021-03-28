@@ -96,10 +96,12 @@ if ($text && $chat_id) {
 
         foreach ($allReasons as $key => $reason) {
             $string = "[$key] => $reason\n";
-            file_put_contents($file, $string, LOCK_EX);
+            file_put_contents($file, $string, FILE_APPEND | LOCK_EX);
         }
 
         $telegram->sendDocument(['chat_id' => $chat_id, 'document' => InputFile::create('reasons.txt')]);
+
+        unlink($file);
 
         $connectionService->updateLastCommand($pdo);
     } else {
