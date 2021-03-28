@@ -83,9 +83,22 @@ class ConnectionService
         $stmt->execute();
     }
 
+    public function getLastReason(PDO $connection): ?string
+    {
+        $sql = 'SELECT r.reason
+                    FROM public.reasons r
+                ORDER BY r.id DESC
+                LIMIT 1;
+                ';
+
+        $stmt = $connection->query($sql);
+
+        return $stmt->fetchColumn();
+    }
+
     public function deleteReason(PDO $connection, string $id): void
     {
-        $sql = 'DELETE from "public"."reasons"
+        $sql = 'DELETE FROM "public"."reasons"
                 WHERE "id" = :id;
                 ';
 
@@ -96,7 +109,8 @@ class ConnectionService
 
     public function getReasonById(PDO $connection, string $id): ?string
     {
-        $sql = 'SELECT from "public"."reasons"
+        $sql = 'SELECT "public"."reasons"."reason"
+                    FROM "public"."reasons"
                 WHERE "id" = :id;
                 ';
 

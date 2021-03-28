@@ -37,44 +37,55 @@ if ($text && $chat_id) {
         $reply_markup = Keyboard::make(
             ['keyboard' => $keyboard, 'resize_keyboard' => true, 'one_time_keyboard' => false]
         );
+
         $telegram->sendMessage(['chat_id' => $chat_id, 'text' => $reply, 'reply_markup' => $reply_markup]);
     } elseif ($text === "/bro") {
         $connectionService->updateLastCommand($pdo, $text);
+
         $telegram->sendPhoto(['chat_id' => $chat_id, 'photo' => InputFile::create($brokeBackMountain)]);
     } elseif ($text === "/hui") {
         $connectionService->updateLastCommand($pdo, $text);
+
         $telegram->sendPhoto(['chat_id' => $chat_id, 'photo' => InputFile::create($dildo)]);
     } elseif ($text === "Срочно нужна причина для отмазки") {
         $connectionService->updateLastCommand($pdo);
         $reason = $connectionService->getRandomReasonForExcuse($pdo);
+
         $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $reason]);
     } elseif ($text === "/add") {
         $reply = "Да, добавь еще одну";
         $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $reply]);
+
         $connectionService->updateLastCommand($pdo, "/add");
     } elseif ($lastCommand === "/add") {
         $connectionService->addNewReason($pdo, $text);
+        $connectionService->getLastReason($pdo);
         $connectionService->updateLastCommand($pdo);
-        $reply = "Commander, new reason was approved";
+
+        $reply = "Commander, new reason was approved with id = ";
         $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $reply]);
     } elseif ($text === "/delete") {
         $reply = "Ой, да кому ты врешь. Введи id причины для удаления";
+
         $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $reply]);
         $connectionService->updateLastCommand($pdo, "/delete");
     } elseif ($lastCommand === "/delete") {
         $deletedReasonText = $connectionService->getReasonById($pdo, $text);
+
         $connectionService->deleteReason($pdo, $text);
         $connectionService->updateLastCommand($pdo);
+
         $reply = "Причина: $deletedReasonText была удалена. \nЖду, когда ты ее вернешь ее в список";
+
         $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $reply]);
     }
     elseif ($text === "/show") {
         $reply = "Вспомни все свои грехи";
+
         $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $reply]);
 
         $file = 'reasons.txt';
         $current = file_get_contents($file);
-
         $allReasons = $connectionService->getAllReasonsForExcuse($pdo);
 
         foreach ($allReasons as $key => $reason) {
@@ -87,6 +98,7 @@ if ($text && $chat_id) {
         $connectionService->updateLastCommand($pdo);
     } else {
         $reply = "Тупо тыкай кнопку. Здесь нет дополнительного функционала";
+
         $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $reply]);
     }
 } else {
