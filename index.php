@@ -71,7 +71,7 @@ if ($text && $chat_id) {
             file_put_contents($file, $string, FILE_APPEND | LOCK_EX);
         }
 
-        $telegram->sendDocument(['chat_id' => $chat_id, 'document' => 'reasons.txt']);
+        $telegram->sendDocument(['chat_id' => $chat_id, 'document' => InputFile::create('reasons.txt')]);
 
         $connectionService->updateLastCommand($pdo);
     } else {
