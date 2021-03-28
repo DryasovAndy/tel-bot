@@ -83,6 +83,19 @@ class ConnectionService
         $stmt->execute();
     }
 
+    public function getLastReasonId(PDO $connection): ?string
+    {
+        $sql = 'SELECT r.id
+                    FROM public.reasons r
+                ORDER BY r.id DESC
+                LIMIT 1;
+                ';
+
+        $stmt = $connection->query($sql);
+
+        return $stmt->fetchColumn();
+    }
+
     public function getLastReason(PDO $connection): ?string
     {
         $sql = 'SELECT r.reason
@@ -109,8 +122,8 @@ class ConnectionService
 
     public function getReasonById(PDO $connection, string $id): ?string
     {
-        $sql = 'SELECT "public"."reasons"."reason"
-                    FROM "public"."reasons"
+        $sql = 'SELECT r.reason
+                    FROM public.reasons r
                 WHERE "id" = :id;
                 ';
 
