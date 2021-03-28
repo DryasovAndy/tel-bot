@@ -63,7 +63,7 @@ if ($text && $chat_id) {
         $allReasons = $connectionService->getAllReasonsForExcuse($pdo);
 
 
-        $output = implode(',' . "/n", array_map(
+        $output = implode(", /n", array_map(
             static function ($a, $b) { return "$a is $b"; },
             array_keys($allReasons),array_values($allReasons)));
 
