@@ -45,7 +45,7 @@ class ConnectionService
 
         $stmt = $connection->query($sql);
 
-        return $stmt->fetchAll();
+        return $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
     }
 
     public function updateLastCommand(PDO $connection, ?string $command = null): void
