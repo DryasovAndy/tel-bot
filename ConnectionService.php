@@ -41,6 +41,7 @@ class ConnectionService
     {
         $sql = 'SELECT r.id, r.reason
                     FROM public.reasons r
+                WHERE r.id <= 5
                 ';
 
         $stmt = $connection->query($sql);
