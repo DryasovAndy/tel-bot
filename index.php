@@ -62,7 +62,10 @@ if ($text && $chat_id) {
         $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $reply]);
         $allReasons = $connectionService->getAllReasonsForExcuse($pdo);
 
-        $output = implode(',', array_map(
+        var_dump($allReasons);
+        die();
+        
+        $output = implode(',' . "/n", array_map(
             static function ($a, $b) { return "$a is $b"; },
             array_keys($allReasons),array_values($allReasons)));
 
