@@ -58,9 +58,9 @@ if ($text && $chat_id) {
         $reply = "Commander, new reason was approved";
         $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $reply]);
     } elseif ($text === "/delete") {
-        $reply = "Ой, да кому ты врешь";
+        $reply = "Ой, да кому ты врешь. Введи id причины для удаления";
         $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $reply]);
-        $connectionService->updateLastCommand($pdo, "/add");
+        $connectionService->updateLastCommand($pdo, "/delete");
     } elseif ($lastCommand === "/delete") {
         $connectionService->deleteReason($pdo, $text);
         $connectionService->updateLastCommand($pdo);
