@@ -82,9 +82,9 @@ if ($text && $chat_id) {
             $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $reply]);
         } else {
             $connectionService->updateLastCommand($pdo);
-            $reply = "Циферку вводи. Ты справишься, я уверен.";
+            $reply = "Нужно вводить циферки, глупенький";
 
-            $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => (int)$text . $reply]);
+            $telegram->sendMessage(['chat_id' => $chat_id, 'parse_mode' => 'HTML', 'text' => $reply]);
         }
 
     } elseif ($text === "/show") {
